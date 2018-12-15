@@ -1,5 +1,5 @@
 module.exports = {
-    title: 'Blog',
+    title: 'Channel X',
     description: 'Blog',
     head: [    // 注入到当前页面的 HTML <head> 中的标签
         // ['link', { rel: 'icon', href: '/logo.jpg' }], // 增加一个自定义的 favicon(网页标签的图标)
@@ -11,8 +11,14 @@ module.exports = {
     themeConfig: {
         nav:[ // 导航栏配置
             { text: "Home", link: "/" },
-            {text: 'JS', link: '/frontEndBasic/' },
-            {text: 'Node', link: '/node/' },
+            { text: 'Categories',
+                items: [
+                    { text: 'JS', link: '/frontEndBasic/' },
+                    { text: 'Node', link: '/node/' }
+                ]
+            },
+            // {text: 'JS', link: '/frontEndBasic/' },
+            // {text: 'Node', link: '/node/' },
             {text: 'About', link: '/about/' },
             {text: 'GitHub', link: 'https://github.com/HuangShengJiang' }
         ],
