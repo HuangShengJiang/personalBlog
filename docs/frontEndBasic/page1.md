@@ -33,28 +33,28 @@
 
 ## 有哪些规则
 1. 全局变量必须显式声明，平常我们定义一个变量可以不需要`var`声明，但在严格模式下，会报错。
-    ```
-        "use strict";
-        
-        a = 2;   //报错
-     
-        for(i = 0; i < 2; i++) { // 报错，i未声明
-     　　
-        }  
-    ```
 
+    ```
+    "use strict";
+    
+    a = 2;   //报错
+ 
+    for(i = 0; i < 2; i++) { // 报错，i未声明
+    
+    }
+    ```
 
 2. 禁止使用`with`语句，主要是为了杜绝使用`with`语句可能导致数据泄露，详情移步[JavaScript中 with的用法](https://blog.csdn.net/zwkkkk1/article/details/79725934) 
     ```
-        "use strict";
-        
-        var obj = {
-            a: 1
-        };
-     
-        with (obj) {
-            a = 3;
-        }  //报错
+    "use strict";
+    
+    var obj = {
+        a: 1
+    };
+ 
+    with (obj) {
+        a = 3;
+    }  //报错
     ``` 
     
 3. 创建eval作用域
@@ -106,7 +106,122 @@
     console.log(o.p);  //Chrome、Firefox和IE edge 结果都为 2，p属性被覆盖  
     //IE11则报错：Multiple definitions of a property not allowed in strict mode
     ```
+
+6. 函数不能有重名参数，实际测试（Chrome、Firefox、IE11、IE edge都会报错）
+    
+    ``` 
+    "use strict";
+    function test(a,a,b){
+        console.log(a,a,b);
+    }
+    
+    test(1,2,3); //SyntaxError: duplicate formal argument a
+    ```
+
    
-6.   
- 
- ## 可能会遇到的问题
+7. 禁止this关键字指向全局对象,要使用`this`必须给它赋值，`this`已不再默认指向全局对象，而是`undefined`。
+    
+   ``` 
+   "use strict";
+   function f(){
+   
+   　　　　"use strict";
+   
+   　　　　this.a = 1;
+   
+   };
+   
+   f();// 报错，this未定义
+   ``` 
+   
+8. 禁止在函数内部遍历调用栈，即禁止使用caller。
+
+    ``` 
+    "use strict";
+    function f1(){
+    
+        "use strict";
+        
+        f1.caller; // 报错
+        f1.arguments;// 报错
+    }
+    f1();
+    ```
+9. 不允许对arguments赋值
+
+    ``` 
+    "use strict";
+    
+    arguments++; // 语法错误
+    
+    var obj = { set p(arguments) { } }; // 语法错误
+    
+    try { } catch (arguments) { } // 语法错误
+    
+    function arguments() { } // 语法错误
+    
+    var f = new Function("arguments", "'use strict'; return 17;"); // 语法错误
+    ```
+
+10. arguments不再追踪参数的变化
+
+    ``` 
+    　　function f(a) {
+    
+    　　　　a = 2;
+    
+    　　　　return [a, arguments[0]];
+    
+    　　}
+    
+    　　f(1); // 正常模式为[2,2]
+    
+    　　function f(a) {
+    
+    　　　　"use strict";
+    
+    　　　　a = 2;
+    
+    　　　　return [a, arguments[0]];
+    
+    　　}
+    
+    　　f(1); // 严格模式为[2,1]
+    ```
+    
+11. 禁止使用arguments.callee
+
+    ``` 
+     "use strict";
+     
+    　var f = function() { return arguments.callee; };
+     
+    　f(); // 报错   
+    ```
+
+12. 禁止八进制表示法,正常模式下，整数的第一位如果是0，表示这是八进制数，比如0100等于十进制的64。
+
+    ``` 
+    "use strict";
+    
+    var n = 0100; // 语法错误
+    ```
+
+13. 保留字
+    为了向将来Javascript的新版本过渡，严格模式新增了一些保留字：implements, interface, let, package, private, protected, public, static, yield。
+       
+14. 函数必须声明在顶层，不允许在非函数的代码块内声明函数  
+
+    ``` 
+    "use strict";
+    if (true) {
+        function f() { } // 语法错误
+    }
+    
+    for (var i = 0; i < 5; i++) {
+        function f2() { } // 语法错误
+    }         
+    ```
+## 参考链接
+[Javascript 严格模式详解:阮一峰](http://www.ruanyifeng.com/blog/2013/01/javascript_strict_mode.html)
+    
