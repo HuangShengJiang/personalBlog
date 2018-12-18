@@ -14,15 +14,18 @@ module.exports = {
             { text: 'Categories',
                 items: [
                     { text: 'JS', link: '/frontEndBasic/' },
-                    { text: 'Node', link: '/node/' }
+                    { text: 'Node', link: '/node/' },
+                    { text: 'Library', link: '/interestingLibrary/' },
                 ]
             },
-            // {text: 'JS', link: '/frontEndBasic/' },
-            // {text: 'Node', link: '/node/' },
             {text: 'About', link: '/about/' },
             {text: 'GitHub', link: 'https://github.com/HuangShengJiang' }
         ],
         sidebar:  {
+            '/frontEndBasic/': [
+                'page1',
+                'page2'
+            ],
 
         },
         search: false,
