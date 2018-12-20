@@ -26,7 +26,9 @@ module.exports = {
                 'page1',
                 'page2'
             ],
-
+            '/interestingLibrary/': [
+                'v2ray'
+            ],
         },
         search: false,
         searchMaxSuggestions: 10

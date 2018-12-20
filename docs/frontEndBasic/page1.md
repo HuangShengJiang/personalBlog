@@ -1,4 +1,8 @@
-## 什么是严格模式
+---
+title: JavaScript严格模式
+---
+
+## 什么是JavaScript严格模式
 通常我们的JavaScript代码都是在较宽松的条件下运行，也就是正常运行模式，
 而JavaScript 严格模式（strict mode）即在严格的条件下运行JavaScript代码。
 
@@ -186,7 +190,7 @@
     
     　　}
     
-    　　f(1); // 严格模式为[2,1]
+    　　f(1); // 严格模式为[2,1]``
     ```
     
 11. 禁止使用arguments.callee
