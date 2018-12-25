@@ -5,8 +5,7 @@ title: V2Ray
 > V2Ray 像是一个集成工具，它集合了多种多样的协议和功能，对个人用户而言像是一个工具箱，可以使用各种各样的工具组合。
 对开发者而言像是一个脚手架，可以在此基础上开发扩充自己需要的功能而节省开发时间。
 
-## 使用 v2ray 科学上网
-
+## 使用 v2ray 搭梯子
 1. 准备材料： 一台可以访问国外网站的服务器，一台可以上网的电脑
 
 2. 安装服务器上的v2ray(以Centos 7为例)
@@ -55,12 +54,21 @@ title: V2Ray
         
         ![浏览器设置](/img/firefox_setting.png)
         
-    * ps：这里运行v2ray.exe 出现的是命令行，不是很友好。推荐去下载个v2ray V3.5 (低版本的v2ray)， 里面有 v2rayN.exe（可视化的工具）;
+    * ps：这里运行v2ray.exe 出现的是命令行，不是很友好。推荐去下载个v2rayN（可视化的工具）;
 
 4. 修改服务器上 v2ray的config.js
     其实如果只是想要跑通，服务器的config.js可以不用改，
     只要去查看这个文件，拿到 `inbound.port` 、`inbound.settings.clients.id`、`inbound.settings.clients.alterId` 后在客户端config.js中填入，具体看下一部分。
-
+    如果你有个性化的设置，记得在设置后，验证config.js 有效性再重启v2ray，命令如下：
+    ``` 
+    $ /usr/bin/v2ray/v2ray -test -config /etc/v2ray/config.json
+    ```
+    查看服务器上v2ray的运行状态
+   ``` 
+   $  service v2ray status
+   ``` 
+   
+    
 5. 修改客户端上 v2ray的config.js
 
     以下是我客户端配置，大伙参考一下就好,主要就修改了四处地方：
