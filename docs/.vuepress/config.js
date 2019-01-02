@@ -24,11 +24,15 @@ module.exports = {
         sidebar:  {
             '/frontEndBasic/': [
                 'page1',
-                'page2'
+                'page2',
+                'typeScript'
             ],
             '/interestingLibrary/': [
                 'v2ray'
             ],
+            '/node/':[
+                'package'
+            ]
         },
         search: false,
         searchMaxSuggestions: 10
