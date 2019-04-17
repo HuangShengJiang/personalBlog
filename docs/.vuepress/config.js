@@ -1,5 +1,5 @@
 module.exports = {
-    title: 'Channel X',
+    title: '1234567',
     description: 'Blog',
     head: [    // 注入到当前页面的 HTML <head> 中的标签
         // ['link', { rel: 'icon', href: '/logo.jpg' }], // 增加一个自定义的 favicon(网页标签的图标)
@@ -23,12 +23,14 @@ module.exports = {
         ],
         sidebar:  {
             '/frontEndBasic/': [
-                'page1',
-                'page2',
-                'typeScript'
+                'strictMode',
+                'numberHandler',
+                'YDKJS',
+                'typeScript',
             ],
             '/interestingLibrary/': [
-                'v2ray'
+                'v2ray',
+                'webpack'
             ],
             '/node/':[
                 'package'
