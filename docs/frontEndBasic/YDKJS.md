@@ -51,6 +51,218 @@ foo( 2 ); // 4
 * 调用console.log时查找变量`a`的指向；
 * 调用 `b=a`时，查找 变量 `a`的指向；
 
+## eval与with
+1. 在说到eval和with前，必须要先说说什么词法作用域（Lexical Scope），它指的是在你编写代码时就已经确认下来的作用域。也就是说一旦你编写好代码，代码中的各个作用域也就几乎不可变了。
+看看下面这个例子。
+```javascript
+function foo(a) {
+    var b = a * 2;
+    
+    function bar(c) {
+        console.log( a, b, c );
+    }
+    
+    bar(b * 3);
+}
+
+foo(2)
+```
+上面代码，在编写完成之后作用域也就确定下来了，分别是全局作用域(包含了函数`foo`的指向)、`foo`函数内的作用域(包含了变量`a`、`b`和函数`bar`指向)、`bar`函数内的作用域(包含了变量`c`的指向)。
+
+之所以上面说到词法作用域在代码编写完后就“几乎”不会再变动，是因为还是有办法让作用域发生变化的。
+
+接下来就是eval 方法登场了，看下面代码：
+```javascript
+    function foo(str, a) {
+    	eval( str ); 
+    	console.log( a, b );
+    }
+    
+    var b = 2;
+    
+    foo( "var b = 3;", 1 ); // 1 3
+```
+在这里，eval()方法接收一行字符串 `var b = 3`即重新定义变量`b`的语句，并且很明显在执行`foo`函数时，`var b = 3`得到了执行，将原先已经定义好的全局变量`b`覆盖重新定义了，所以在`console.log()`中显示出来的是`1 3`。
+不知道大家发现没有，eval方法的执行，直接改变了函数`foo`内的作用域，使之内部拥有新的变量`b`的指向。
+
+ps：严格模式下eval()是改变不了作用域的，也就是说 上面的代码如果在严格模式下执行，变量`b`依旧是全局变量的`b`,输出也将会是`1 2`.
+
+
+咱们接下来再来唠唠 `with` 语法，一般这个语法是用于快速更新对象的属性值的：
+```javascript
+var obj = {
+	a: 1,
+	b: 2,
+	c: 3
+};
+
+// more "tedious" to repeat "obj"
+obj.a = 2;
+obj.b = 3;
+obj.c = 4;
+
+// "easier" short-hand
+with (obj) {
+	a = 3;
+	b = 4;
+	c = 5;
+}
+```
+看着确实是挺便捷的，但是它有一个相当牛的缺点，稍有不慎，直接污染全局变量。
+
+```javascript
+function foo(obj) {
+	with (obj) {
+		a = 2;
+	}
+}
+
+var o1 = {
+	a: 3
+};
+
+var o2 = {
+	b: 3
+};
+
+foo( o1 );
+console.log( o1.a ); // 2
+
+foo( o2 );
+console.log( o2.a ); // undefined
+console.log( a ); // 2 -- Oops, leaked global!
+```
+这也是一个很典型的改变词法作用域的例子，with语句在没有找到对象对应的属性时，他也没有修改到 函数 `foo`内的作用域，而是直接修改的全局作用域。
+
+2333，说了上面这么多，就是为了给你解释为什么`不要用`这两个方法，正是因为这两个方法会改变词法作用域，并破坏引擎对作用域查找执行编译时优化的能力，因为引擎必须假设此类优化无效。也就是说程序会变慢。
+
+
+## 防止变量名相同导致的冲突
+现在大家都知道，定义一个变量，是有可能被当前作用域的另一个同名变量覆盖，或者在子作用域中被同名变量所屏蔽(shadow),看看下面的代码：
+```javascript
+var a = 0;
+
+var a = 1;
+
+function foo() {
+  var a = 2;
+  console.log(a); // 2
+}
+
+foo();
+
+console.log(a) // 1
+```
+当使用他人编写的库的时候，这种变量名冲突引起的覆盖现象可能会导致不可预期的问题，那么有什么解决的办法呢？
+1. 全局命名空间
+```javascript
+var MyReallyCoolLibrary = {
+	awesome: "stuff",
+	doSomething: function() {
+		// ...
+	},
+	doAnotherThing: function() {
+		// ...
+	}
+};
+```
+只要命名空间对象名够偏，别人就没有命中你的可能，哈哈哈，其实还是避免不了冲突的可能，这只是个治标不治本的解决方法。
+
+2. 使用"模块"模式
+```javascript 1.8
+//module A
+module.exports = {
+    awesome: "stuff",
+    doSomething: function() {
+        // ...
+    },
+    doAnotherThing: function() {
+        // ...
+    }
+}
+
+//module B
+//这时候你可以随便命名，只要不与当前模块的变量名重复就行
+import AAA form 'moduleA';
+
+//使用 A 模块中的方法和变量
+var a = AAA.awesome;
+AAA.doSomething();
+```
+
+## 立即执行函数(IIFE) 
+
+```javascript
+var a = 2;
+
+(function foo(){ // <-- insert this
+
+	var a = 3;
+	console.log( a ); // 3
+
+})(); // <-- and this
+
+console.log( a ); // 2
+```
+立即执行函数的第一个`()`指的是使括号内的形成一个新的作用域，括号中的方法更像是一个函数表达式，而第二个`()`则是执行第一个括号中的函数表达式。
+
+ps：立即执行函数虽然是允许使用匿名函数的，但是还是建议给方法一个名字。
+
+
+## 块级作用域
+在ES6之前，js是没有实现块级作用域的，看下面代码：
+```javascript 1.8
+var foo = true;
+
+if(foo){
+    //在{}中的代码块并不能形成作用域，其中定义的变量会放在外层的作用域中
+    var a = 1;
+}
+
+console.log(a);
+```
+
+当然，又一次会有例外：
+
+还记的上面说到 `with`语句吗？
+```javascript 1.8
+var a = {
+    a:1,
+    b:2,
+    c:3
+};
+
+with(a){
+    a = 1,
+    b = 2,
+    c = 3
+}
+```
+
+另一个例外是`try/catch`语句：
+```javascript 1.8
+try {
+	undefined(); // illegal operation to force an exception!
+}
+catch (err) {
+	console.log( err ); // works!
+}
+
+console.log( err ); // ReferenceError: `err` not found
+```
+变量`err`只在 `catch`代码块中能够被找到。
+
+从ES6开始引入了`let`，让我们可以实现块作用域
+```javascript 1.8
+var foo = true;
+
+if(foo){
+    //在{}中的代码块形成了块作用域，外层代码是不能用到这里面定义的变量。
+    let a = 1;
+}
+
+console.log(a); // ReferenceError: a is not defined
+```
 
 
 ## 参考链接

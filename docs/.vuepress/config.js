@@ -30,7 +30,8 @@ module.exports = {
             ],
             '/interestingLibrary/': [
                 'v2ray',
-                'webpack'
+                'webpack',
+                'lodash'
             ],
             '/node/':[
                 'package'
