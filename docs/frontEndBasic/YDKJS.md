@@ -1,7 +1,7 @@
 ---
-title: You Don't Know JS(YDKJS)
+title: You Don't Know JS(作用域 & 闭包)
 ---
-## 契机
+## You Don't Know JS(YDKJS)
 《你不知道的Javascript》这本书的评价相当的高，某日闲逛github发现这本书的原著（Star数排行貌似还是前十呢）。想着一边看英文文档一边学习新知识也不错，便果断转向在线阅读这本书（嘻嘻，主要还是因为在线看免费~）。结果一看就入迷了，书里写的很多是我不知道或者说是我一直以来都存在误解的知识点。所以想着要把书里一些有趣的东西记录下来。
 
 ## Scope、Engine、Compiler
@@ -263,6 +263,65 @@ if(foo){
 
 console.log(a); // ReferenceError: a is not defined
 ```
+
+## 变量提升(Hoisting)
+以前在听到变量提升时，总是不明觉厉，觉得要解释通这个东西是挺复杂的，但是看完这一节关于变量提升的内容后，感觉理解的差不多。
+
+```javascript 1.8
+//例子1
+a = 2;
+
+var a;
+
+console.log( a ); // 2
+```
+
+```javascript 1.8
+//例子2
+console.log( a );  // undefined
+
+var a = 2;  
+```
+
+在咱们常人的理解中，`var a = 2;`在程序中是作为一条语句来执行的，但是实际上,JS引擎会把它当成两条语句来执行 `var a`（定义类语句）和`a =2`（赋值或者执行类语句）, 并且都是将代码中所有的定义类语句先执行了，包括变量的定义，方法的定义等，然后再执行剩余的 赋值/执行类语句。我们将这种先执行定义类语句的行为称为变量提升。
+
+理解了上面这一点，那上面两个例子的表现就很好理解了。
+
+例子1的实际执行顺序：
+```javascript 1.8
+var a;
+a = 2;
+console.log( a ); // 2
+```
+
+例子2的实际执行顺序：
+```javascript 1.8
+var a;
+
+console.log( a );  // undefined
+
+a = 2;  
+```
+是不是相当清晰明了？当然这里我们不得不提一下，函数 `function` 的变量提升优先级更高一些。
+
+```javascript 1.8
+foo(); // 1
+
+var foo;
+
+function foo() {
+	console.log( 1 );
+}
+
+foo = function() {
+	console.log( 2 );
+};
+
+// 输出 1
+```
+
+## 闭包(Closure)
+
 
 
 ## 参考链接

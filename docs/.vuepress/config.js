@@ -26,12 +26,12 @@ module.exports = {
                 'strictMode',
                 'numberHandler',
                 'YDKJS',
-                'typeScript',
+                // 'typeScript',
             ],
             '/interestingLibrary/': [
                 'v2ray',
                 'webpack',
-                'lodash'
+                // 'lodash'
             ],
             '/node/':[
                 'package'
