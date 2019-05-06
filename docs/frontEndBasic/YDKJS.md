@@ -1,5 +1,5 @@
 ---
-title: You Don't Know JS(作用域 & 闭包)
+title: YDKJS(作用域 & 闭包)
 ---
 ## You Don't Know JS(YDKJS)
 《你不知道的Javascript》这本书的评价相当的高，某日闲逛github发现这本书的原著（Star数排行貌似还是前十呢）。想着一边看英文文档一边学习新知识也不错，便果断转向在线阅读这本书（嘻嘻，主要还是因为在线看免费~）。结果一看就入迷了，书里写的很多是我不知道或者说是我一直以来都存在误解的知识点。所以想着要把书里一些有趣的东西记录下来。
@@ -321,7 +321,92 @@ foo = function() {
 ```
 
 ## 闭包(Closure)
+闭包对于咱们前端学习来说是一道大坎，跨过去了就离大神更近一步，所以本笔记也来到了重点中的重点--闭包。
 
+那么什么是闭包呢？我先把作者给出的解释放在这：
+
+> 闭包就是一个函数即使它是在它的语义作用域外被调用，也能够记住并使用它的语义作用域。
+
+什么意思呢？来看看例子
+```javascript 1.8
+function foo() {
+	var a = 2;
+
+	function bar() {
+		console.log( a );
+	}
+
+	return bar;
+}
+
+var baz = foo(); // 这里的baz 实际上就是 foo 方法 暴露出来的 bar 方法
+
+baz(); // 2  -- 这里执行 baz 方法 却能获取到属于 foo 方法 内部的作用域中的 变量a
+```
+上例中我们可以认为暴露出来的 bar 方法仍能获取到 foo 方法 内部的作用域的，故形成了一个闭包。
+
+接下来，我们来一个著名的闭包面试题,请正确打印 i 变量：
+```javascript 1.8
+for (var i=1; i<=5; i++) {
+	setTimeout( function timer(){
+		console.log( i );
+	}, i*1000 );
+}
+```
+试试看上例就会发现，会连续打印5个6出来，因为 i 是一个全局变量，而timer方法在调用时 循环已经结束，i为6。
+
+解法有好几个：
+```javascript 1.8
+//解法1 使用立即执行函数 将每次循环中的i存起来，给timer 执行时在用（看! 闭包来了!）
+for (var i=1; i<=5; i++) {
+    (function(){
+        var j = i;
+        setTimeout( function timer(){
+        		console.log( j );
+        	}, j*1000 );
+    })()
+}
+//解法2 和解法1差不多，也是用的传变量i放着以后用的招数
+for (var i=1; i<=5; i++) {
+    (function(j){
+        setTimeout( function timer(){
+        		console.log( j );
+        	}, j*1000 );
+    })(i)
+}
+
+//解法3 使用ES6 新增的let 语句，在每个循环中形成一个块作用域，使 i 不再是一个全局变量
+for (let i=1; i<=5; i++) {
+	setTimeout( function timer(){
+		console.log( i );
+	}, i*1000 );
+}
+//解法4 和解法3原理一样
+for (var i=1; i<=5; i++) {
+    let j = i;
+	setTimeout( function timer(){
+		console.log( j );
+	}, j*1000 );
+}
+```
+## JS没有所谓的动态作用域
+看下面例子：
+```javascript 1.8
+function foo() {
+	console.log( a ); // 2 ,而不是你想象中的变量 a = 3
+}
+
+function bar() {
+	var a = 3;
+	foo();
+}
+
+var a = 2;
+
+bar();
+```
+这里`foo`方法取得作用域是全局作用域，因为它定义于全局作用域，根据RHS搜索，它找到的是 全局变量a。
+ps：JS都是`语义作用域`的，而没有 `动态作用域`。分辨的关键点是：语义作用域确定于编写代码时，动态作用域确定于运行时。
 
 
 ## 参考链接

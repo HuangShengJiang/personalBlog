@@ -13,13 +13,13 @@ module.exports = {
             { text: "Home", link: "/" },
             { text: 'Categories',
                 items: [
-                    { text: 'JS', link: '/frontEndBasic/' },
-                    { text: 'Node', link: '/node/' },
-                    { text: 'Library', link: '/interestingLibrary/' },
+                    { text: 'JS', link: '/frontEndBasic/strictMode' },
+                    { text: 'Node', link: '/node/package' },
+                    { text: 'Library', link: '/interestingLibrary/v2ray' },
                 ]
             },
             {text: 'About', link: '/about/' },
-            {text: 'GitHub', link: 'https://github.com/HuangShengJiang' }
+            {text: 'GitHub', link: 'https://github.com/flynull' }
         ],
         sidebar:  {
             '/frontEndBasic/': [
@@ -39,5 +39,16 @@ module.exports = {
         },
         search: false,
         searchMaxSuggestions: 10
+    },
+    plugins:{
+        '@vuepress/back-to-top':{},
+        '@vuepress/active-header-links':{},
+        '@vuepress/google-analytics':{
+            'ga': 'UA-139599860-1'
+        }
     }
+    // plugins: [
+    //     '@vuepress/back-to-top',
+    //     '@vuepress/active-header-links'
+    // ]
 }
