@@ -1,5 +1,10 @@
 ---
 title: JavaScript严格模式
+date: 2019-04-17
+categories: 
+ - 前端
+tags: 
+ - javaScript
 ---
 
 ## 什么是JavaScript严格模式

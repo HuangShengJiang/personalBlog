@@ -1,5 +1,10 @@
 ---
 title: 金额格式化处理数字
+date: 2019-03-17
+categories: 
+ - 前端
+tags: 
+ - javaScript
 ---
 ## 记录对数字的千分位符的处理(逗号隔开)
 

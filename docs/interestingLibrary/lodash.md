@@ -1,5 +1,11 @@
 ---
 title: Lodash
+date: 2019-04-18
+categories: 
+ - Library
+tags: 
+ - javaScript
+ - tool
 ---
 >Lodash 通过降低 array、number、objects、string 等等的使用难度从而让 JavaScript 变得更简单。
 

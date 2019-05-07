@@ -1,5 +1,10 @@
 ---
 title: V2Ray
+date: 2018-12-18
+categories: 
+ - Library
+tags: 
+ - tool
 ---
 
 > V2Ray 像是一个集成工具，它集合了多种多样的协议和功能，对个人用户而言像是一个工具箱，可以使用各种各样的工具组合。

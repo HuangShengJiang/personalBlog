@@ -1,5 +1,10 @@
 ---
 title: package.json 
+date: 2019-02-13
+categories: 
+ - Node
+tags: 
+ - node
 ---
 ## package.json
 每个项目的根目录下面，一般都有一个package.json文件，作用是定义这个项目所需要的各种模块，以及项目的配置信息（比如名称、版本、许可证等元数据）。
