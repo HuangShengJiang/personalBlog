@@ -23,7 +23,7 @@ module.exports = {
             //         { text: 'Library', link: '/interestingLibrary/v2ray' },
             //     ]
             // },
-            {text: 'About', link: '/about/', icon: 'reco-account'},
+            {text: 'About', link: '/about/real', icon: 'reco-account'},
             { text: 'TimeLine', link: '/timeLine/', icon: 'reco-date' },
             {text: 'GitHub', link: 'https://github.com/flynull', icon: 'reco-github'}
         ],
@@ -32,12 +32,13 @@ module.exports = {
                 'strictMode',
                 'numberHandler',
                 'YDKJS',
+                'YDKJS_2',
                 // 'typeScript',
             ],
             '/interestingLibrary/': [
                 'v2ray',
                 'webpack',
-                // 'lodash'
+                'lodash'
             ],
             '/node/':[
                 'package'

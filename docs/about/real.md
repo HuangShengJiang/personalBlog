@@ -1,6 +1,12 @@
+---
+title: 个人简历
+date: 2019-05-13
+isComment: false
+isTimeLine: false
+---
 # 联系方式
 
-- Email：rayshuang12345@gmail.com
+- Email：ray_shuang@163.com
 
 ---
 
@@ -9,10 +15,10 @@
  - 黄盛江/男/1995 
  - 本科/广东药科大学-医药信息管理学院 
  - 工作年限：2年
- - 技术博客：https://huangshengjiang.github.io/ 
- - Github：https://github.com/HuangShengJiang
+ - 技术博客：https://flynull.github.io/
+ - Github：https://github.com/flynull
  - 期望职位：Web前端工程师
- - 期望薪资：税前月薪10k~15k
+ - 期望薪资：面谈
  - 期望城市：深圳
 
 ---
