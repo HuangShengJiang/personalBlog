@@ -23,7 +23,8 @@ module.exports = {
             //         { text: 'Library', link: '/interestingLibrary/v2ray' },
             //     ]
             // },
-            {text: 'About', link: '/about/real', icon: 'reco-account'},
+            // {text: 'About', link: '/about/real', icon: 'reco-account'},
+            {text: 'About', link: '/about/', icon: 'reco-account'},
             { text: 'TimeLine', link: '/timeLine/', icon: 'reco-date' },
             {text: 'GitHub', link: 'https://github.com/flynull', icon: 'reco-github'}
         ],
