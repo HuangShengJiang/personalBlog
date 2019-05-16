@@ -224,9 +224,86 @@ kk.foo(); // "333"
 是不是越看越清晰了呢？咱们继续。
 
 ## this的显式绑定
+this的显式绑定指的是由程序的编写者指定this的指向，这里需要用到函数的内置方法`call(..)`和`apply(..)`
 
+```javascript 1.8
+function foo() {
+	console.log( this.a );
+}
 
+var obj = {
+	a: 2
+};
+
+foo.call( obj ); // 2
+```
+`foo.call(..)`使我们能够强制把`foo`的`this`指向`obj`
+
+### this的强绑定（Hard Binding ）
+this的强绑定指的是，this一旦使用`call(..)`和`apply(..)`进行指向的绑定，那么再次指定将不会覆盖之前的绑定。
+```javascript 1.8
+function foo() {
+	console.log( this.a );
+}
+
+var obj = {
+	a: 2
+};
+
+var bar = function() {
+	foo.call( obj );
+};
+
+bar(); // 2
+setTimeout( bar, 100 ); // 2
+
+// `bar` hard binds `foo`'s `this` to `obj`
+//`bar` 将`foo`的 `this`强绑定给 `obj`
+// so that it cannot be overriden
+//所以不能再重新绑定给 window  
+bar.call( window ); // 2
+```
+## new 绑定
+当一个函数通过使用new进行调用时，会自动触发以下操作：
+1. 构建一个对象
+2. 这个构建好的对象就是‘原型链’
+3. this 被设定指向这个构建好的对象
+4. 除非函数返回自己的备用对象，否则新调用的函数调用将自动返回新构造的对象。
+
+```javascript 1.8
+function foo(a) {
+	this.a = a;
+}
+
+var bar = new foo( 2 );
+console.log( bar.a ); // 2
+```
 ## this各种绑定的优先级
-
+优先级排序如下：
+1. new 绑定
+2. 显式绑定
+3. 隐式绑定
+4. 默认绑定
 
 ## ES6 箭头函数
+ES6出现箭头函数`=>`允许我们通过语义作用域确定`this`的绑定,并且是强绑定。
+```javascript
+function foo() {
+	// return an arrow function
+	return (a) => {
+		// `this` here is lexically adopted from `foo()`
+		console.log( this.a );
+	};
+}
+
+var obj1 = {
+	a: 2
+};
+
+var obj2 = {
+	a: 3
+};
+
+var bar = foo.call( obj1 );
+bar.call( obj2 ); // 2, not 3!
+```
