@@ -39,7 +39,8 @@ module.exports = {
             '/interestingLibrary/': [
                 'v2ray',
                 'webpack',
-                'lodash'
+                'lodash',
+                'git'
             ],
             '/node/':[
                 'package'

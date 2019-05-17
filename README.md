@@ -9,9 +9,9 @@
 ### TODO
 
 - [x] webpack4 的相关知识
-- [ ] git 相关知识： 打tag标签、
+- [x] git 相关知识： 基本概念、基本操作、branch分支、tag标签等
 - [ ] jquery 相关知识
 - [ ] 新的有趣的库：knex、pm2、nginx、express、
-- [ ] js 的相关知识
+- [x] js 的相关知识
 - [ ] vuePress 自建博客 
 - [ ] heroku + hexo 自建博客
