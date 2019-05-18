@@ -38,6 +38,7 @@ module.exports = {
             ],
             '/interestingLibrary/': [
                 'v2ray',
+                'vuepress',
                 'webpack',
                 'lodash',
                 'git'

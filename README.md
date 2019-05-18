@@ -13,5 +13,5 @@
 - [ ] jquery 相关知识
 - [ ] 新的有趣的库：knex、pm2、nginx、express、
 - [x] js 的相关知识
-- [ ] vuePress 自建博客 
+- [x] vuePress 自建博客 
 - [ ] heroku + hexo 自建博客
