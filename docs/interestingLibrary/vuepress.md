@@ -90,7 +90,8 @@ module.exports = {
             },
             {text: 'GitHub', link: 'https://github.com/'} //可以跳转到别的页面
         ],
-        //定义页面的显示的侧边栏(!!!注意：这里)
+        //定义页面的显示的侧边栏
+        //(!!!注意：这里要和文件目录的相对位置相同，譬如下面的 article1.md 文件要放在 demo1 文件下等等)
         sidebar:  {
             '/demo1/': [
                 'article1'
@@ -134,7 +135,117 @@ module.exports = {
 
 重新运行程序`npm run dev`,会看到已经可以从页面菜单进行跳转了。
     ![菜单跳转](/img/library/vuepress/show2.png)
+    
+当然这个时候你会发现侧边栏都是空白的，这是因为应用找不到对应的文件article1.md，来完善一下：
+``` 
+├─ docs
+│  ├─ README.md
+│  ├─demo1
+│  │ ├─ README.md
+│  │ └─ article1.md
+│  ├─demo2
+│  │ ├─ README.md
+│  │ └─ article1.md
+│  ├─demo3
+│  │ ├─ README.md
+│  │ └─ article1.md
+│  └─ .vuepress
+│     └─ config.js
+└─ package.json
+```
 
+并为每篇文章指定一个标题，这里会用到 YAML front matter 语法，/demo1/article1.md:
+``` yaml
+    ---
+    title: demo1 的第一篇文章
+    ---
+    demo1 的第一篇文章
+```
+
+定义好后，我们会看到侧边栏出现了第一篇文章
+    ![定义侧边栏](/img/library/vuepress/show3.png)
+
+## 进阶使用
+1. 使用插件
+    使用应用自带的插件可以丰富博客的内容，只要下载好对应的依赖，在配置文件`config.js`中启用即可。
+    
+    下载依赖：
+    ``` 
+    yarn add -D @vuepress/plugin-active-header-links@next @vuepress/plugin-back-to-top@next @vuepress/plugin-google-analytics@next @vuepress/plugin-medium-zoom@next @vuepress/plugin-nprogress@next moment
+    
+    # OR npm install -D @vuepress/plugin-active-header-links@next @vuepress/plugin-back-to-top@next @vuepress/plugin-google-analytics@next @vuepress/plugin-medium-zoom@next @vuepress/plugin-nprogress@next moment
+    ```
+    修改配置文件`config.js` ：
+    ``` 
+    module.exports = {
+        title: '网站标题',
+        description: '网站说明',
+        markdown: {
+            lineNumbers: false, // 代码块显示行号
+        },
+        themeConfig: {
+            author: '全局作者名称',
+            nav:[
+                // 导航栏配置
+                { text: "Home", link: "/"},
+                { text: 'Categories',
+                     items: [
+                         { text: '分类一', link: '/demo1/' },
+                         { text: '分类二', link: '/demo2/' },
+                         { text: '分类三', link: '/demo3/' },
+                     ]
+                },
+                {text: 'About', link: '/about/'},
+                {text: 'GitHub', link: 'https://github.com/'}
+            ],
+            //定义页面的显示的侧边栏(!!!注意：这里)
+            sidebar:  {
+                '/demo1/': [
+                    'article1'
+                ],
+                '/demo2/': [
+                    'article1'
+                ],
+                '/demo3/':[
+                   'article1'
+                ]
+            },
+            search: false,
+            searchMaxSuggestions: 10,
+        },
+        plugins:{
+            //返回顶部插件
+            '@vuepress/back-to-top':{},
+            //滚动标题插件
+            '@vuepress/active-header-links':{},
+            //谷歌分析插件
+            '@vuepress/google-analytics':{
+                'ga': ''
+            },
+            //最近更新显示插件
+            '@vuepress/last-updated':{
+    
+                transformer: (timestamp, lang) => {
+                        const moment = require('moment');
+                        //暂时默认使用中文
+                        moment.locale('zh-cn');
+                        return moment(timestamp).fromNow()
+                    }
+            },
+            //图片点击浏览插件
+            '@vuepress/medium-zoom':{},
+            //进度条插件
+            '@vuepress/nprogress':{}
+        }
+    }
+    ```
+    
+    
+2. 使用主题
+    修改主题很简单，只要去修改配置文件`config.js`中的`theme`节点，即可简单应用，个性化配置则需要修改`themeConfig`节点，具体要看主题的需求。
+
+## 部署
+VuePress官网给出各种部署的方式，详情可以看 [VuePress-部署](https://vuepress.vuejs.org/zh/guide/deploy.html)
 
 ## 参考链接
 1. [VuePress官网](https://v1.vuepress.vuejs.org/zh/)
